@@ -2,6 +2,7 @@ import axios from 'axios';
 import XLSX from 'xlsx';
 
 const isDays = process.env.UNIT === 'days';
+const is400 = process.env.UNIT === '400';
 const coin = process.env.COIN || 'KRW-BTC';
 
 const EXCEL_NAME = `backtest-${coin}.xlsx`;
@@ -55,9 +56,9 @@ const caculateReverDatas = (datas: IData[]) => {
 const recursiveRetriveCandles: (lastTime?: string) => Promise<IData[] | undefined> = async (lastTime) => {
   try {
     const response = await axios.get<IData[] | undefined>(
-      `https://api.upbit.com/v1/candles${isDays ? DAYS_API_PATH : FOR_HOURS_API_PATH}?market=${coin}&count=200${
-        lastTime ? `&to=${lastTime}` : ''
-      }`
+      `https://api.upbit.com/v1/candles${
+        isDays || is400 ? DAYS_API_PATH : FOR_HOURS_API_PATH
+      }?market=${coin}&count=200${lastTime ? `&to=${lastTime}` : ''}`
     );
 
     if (!response.data || response.data.length === 0) {
@@ -65,7 +66,7 @@ const recursiveRetriveCandles: (lastTime?: string) => Promise<IData[] | undefine
       return undefined;
     }
 
-    if (count === (isDays ? 9 : 36)) {
+    if (count === (isDays ? 9 : is400 ? 2 : 36)) {
       // 1일봉은 200개씩 9번, 4시간봉은 200개씩 36번
       return response.data;
     }
@@ -107,7 +108,7 @@ const exportExcel = async (datas: IData[]) => {
 
   const newWorksheet = XLSX.utils.json_to_sheet(datas);
 
-  XLSX.utils.book_append_sheet(wb, newWorksheet, isDays ? '1days' : '4hours');
+  XLSX.utils.book_append_sheet(wb, newWorksheet, isDays ? '1days' : is400 ? '400day' : '4hours');
   XLSX.writeFile(wb, EXCEL_NAME);
 };
 
