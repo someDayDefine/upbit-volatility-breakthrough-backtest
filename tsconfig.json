@@ -1,0 +1,44 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    /* 프로젝트 옵션 */
+    "target": "es5", // 사용할 ECMAScript 버전 설정
+    "module": "commonjs", // 모듈 설정
+    "allowJs": false, // 자바스크립트 파일 컴파일 허용 여부.
+    "sourceMap": true,
+    "removeComments": false, // 주석 삭제 여부
+    "noEmit": true,
+    "isolatedModules": true, // 각 파일을 별도의 모듈로 변환.
+    "lib": ["es2016", "dom"],
+
+    /* 엄격한 타입 확인 옵션 */
+    "strict": true,
+    "alwaysStrict": true,
+
+    /* 모듈 해석 옵션 */
+    "moduleResolution": "node", // 모듈 (검색)해석 방식 설정
+    "baseUrl": "./",
+    "paths": {
+      // "@/*": ["src/*"],
+    },
+    "rootDirs": ["src", "stories"],
+    "allowSyntheticDefaultImports": true, // export default 를 export 한 값들을 가지는 객체로 설정
+    "esModuleInterop": true,
+
+    /* 추가적인 확인 */
+    "noUnusedLocals": true, // 사용 안하는 지역변수를 허용하지 않을 것인지
+    "noUnusedParameters": true, // 사용 안하는 파라미터를 허용하지 않을 것인지
+
+    /* 소스 맵 옵션 */
+    "sourceRoot": "/",
+    "inlineSources": true,
+
+    /* 추가적 옵션 */
+    "skipLibCheck": true, // 모든 선언 파일의 유형 검사 건너뛰기 (*.d.ts)
+    "forceConsistentCasingInFileNames": true, // 동일 파일에 대해 일관되지 않은 참조 허용하지 않음.
+    "preserveConstEnums": true, // enum 허용
+    "resolveJsonModule": true
+  },
+  "exclude": ["node_modules", "webpack", "jest"],
+  "include": ["**/*.ts"]
+}
